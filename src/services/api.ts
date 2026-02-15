@@ -1,4 +1,4 @@
-import { AIProvider, ChatMessage } from '../types';
+import type { AIProvider, ChatMessage } from '../types';
 import { sendOpenAIMessage, generateCodeWithOpenAI } from './openai';
 import { sendAnthropicMessage, generateCodeWithAnthropic } from './anthropic';
 

@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { Project } from '../types';
+import { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import type { Project } from '../types';
 import { supabase } from '../services/supabase';
 import { useAuth } from './AuthContext';
 
