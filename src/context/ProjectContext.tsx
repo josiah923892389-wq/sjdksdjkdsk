@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import type { Project } from '../types';
 import { supabase } from '../services/supabase';
@@ -31,16 +31,7 @@ export const ProjectProvider = ({ children }: { children: ReactNode }) => {
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      loadProjects();
-    } else {
-      setProjects([]);
-      setCurrentProject(null);
-    }
-  }, [user]);
-
-  const loadProjects = async () => {
+  const loadProjects = useCallback(async () => {
     if (!user) return;
     
     setLoading(true);
@@ -60,7 +51,16 @@ export const ProjectProvider = ({ children }: { children: ReactNode }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      loadProjects();
+    } else {
+      setProjects([]);
+      setCurrentProject(null);
+    }
+  }, [user, loadProjects]);
 
   const createProject = async (name: string): Promise<Project> => {
     if (!user) throw new Error('User not authenticated');
